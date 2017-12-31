@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>
+<html lang="en" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html lang="en" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html lang="en" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="en" class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mobile Easyload</title>
+    <meta name="description" content="">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="style/app.css">
+
+</head>
+<body ng-app="mobile-easyload" ng-controller="mainCtrl as main">
+<!--
+<div ng-view></div>-->
+
+<div class="container">  <!--start app-->
+    <form name="easyloadForm" novalidate class="form-horizontal top-buffer" ng-submit="main.doEasyload(easyloadForm)">
+        <div class="form-group"
+             ng-class="{'has-error': easyloadForm.cellNumber.$invalid && !easyloadForm.cellNumber.$pristine}">
+            <input type="text" name="cellNumber" class="form-control" ng-model="main.activeRecord.cellNumber"
+                   pattern="03[0-9]{9}"
+                   required placeholder="Enter Cell #">
+
+            <p class="help-block"
+               ng-show="easyloadForm.cellNumber.$invalid && !easyloadForm.cellNumber.$pristine">
+                Please Enter a Cell Number.
+            </p>
+        </div>
+        <div class="form-group"
+             ng-class="{'has-error': easyloadForm.rupees.$invalid && !easyloadForm.rupees.$pristine}">
+            <input type="text" name="rupees" class="form-control" ng-model="main.activeRecord.rupees" pattern=".{2,3}"
+                   required placeholder="Rupees">
+
+            <p class="help-block"
+               ng-show="easyloadForm.rupees.$invalid && !easyloadForm.rupees.$pristine">
+                Please Enter a Rupees.
+            </p>
+        </div>
+        <button type="submit" class="btn btn-info" ng-disabled="easyloadForm.$invalid">Load</button>
+    </form>
+
+    <div class="well well-sm top-buffer">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <table class="table">
+                    <tr>
+                        <th>Seri no.</th>
+                        <th>Cell Number</th>
+                        <th>Rupees</th>
+                        <th>Date</th>
+                        <th>Delete/Edit</th>
+                    </tr>
+                    <tr ng-repeat="user in main.easyloadRecords track by $index">
+                        <td>{{$index +1}}</td>
+                        <td>{{user.cellNumber}}</td>
+                        <td>{{user.rupees}}</td>
+                        <td>{{user.date}}</td>
+                        <td><span class="badge" ng-click="main.removeRecord($index)">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </span>
+                            <span class="badge" ng-click="main.editRecord($index)">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- In production use:
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
+-->
+
+<!--third party-->
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/jquery/dist/jquery.js"></script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+
+<!--main files-->
+<script src="app.js"></script>
+
+</body>
+</html>
